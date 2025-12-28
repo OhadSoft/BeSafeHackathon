@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "QueenB",
+      "totalPoints": 90,
+      "reportCounts": {
+        "reportMisconduct": 0,
+        "watch_video": 1,
+        "steps": 2,
+        "extra": 0
+      }
+    }
+  ],
+  "reports": [
+    {
+      "id": 1,
+      "userID": 1,
+      "action": "watch_video",
+      "description": "Finished the Phishing module",
+      "pointsEarned": 50,
+      "timestamp": "2025-12-28T09:42:00.191Z"
+    },
+    {
+      "id": 2,
+      "userID": 1,
+      "action": "steps",
+      "description": "Finished the Phishing module",
+      "pointsEarned": 20,
+      "timestamp": "2025-12-28T09:43:36.442Z"
+    },
+    {
+      "id": 3,
+      "userID": 1,
+      "action": "steps",
+      "description": "Finished the Phishing module",
+      "pointsEarned": 20,
+      "timestamp": "2025-12-28T09:43:38.222Z"
+    }
+  ]
+}
