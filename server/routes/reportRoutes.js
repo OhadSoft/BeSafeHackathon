@@ -1,17 +1,14 @@
 import express from 'express';
 
 import{
-    getAllReports,
-    getReport,
+    getUserSummary,
     createReport
 } from '../controllers/reportController.js';
 
 const router = express.Router();
 
-// GET all reports
-router.get('/', getAllReports);
 // GET a user's reports
-router.get('/user/:userID', getReport);
+router.get('/summary/:userID', getUserSummary);
 // POST a new report
 router.post('/', createReport);
 
