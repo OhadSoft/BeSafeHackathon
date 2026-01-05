@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import reportRoutes from './routes/reportRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
-import {resetUsersWeeklyGoal} from './utils/databaseHelper';
+import {resetUsersWeeklyGoal} from './utils/databaseHelper.js';
 
 dotenv.config();
 

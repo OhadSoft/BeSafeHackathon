@@ -31,6 +31,7 @@ const getUserSummary = (req, res) => {
         username: user.username,
         totalPoints: user.totalPoints,
         stats: user.reportCounts,      // { watch_video: 5, steps: 2...}
+        weeklyGoalStat: user.weeklyGoalCount,
         history: userReports           // The actual list of report objects
     });
 };
@@ -47,8 +48,8 @@ const createReport = (req, res) => {
         return res.status(404).json({message: "User not found"});
     }
 
-    //
-    const COOLDOWN_MS = 5 * 60 * 1000;
+    
+    const COOLDOWN_MS = 5 * 60 * 1000; //5 minutes cooldown
     const now = new Date();
 
     if(user.lastReportTime != null){
@@ -80,24 +81,30 @@ const createReport = (req, res) => {
     //add report to user's count
     if (!user.reportCounts) user.reportCounts = {};
     user.reportCounts[action] = (user.reportCounts[action] || 0) + 1;
-    user.weeklyGoalCount = (user.weeklyGoalCount || 0) + 1; //update
-
+    let achievedGoalNow = false; //make sure we reached this only now
     //check if user completed weekly goal
-    if(user.weeklyGoalCount >= WEEKLY_GOAL_TARGET && !user.achievedGoal){
-        user.totalPoints += WEEKLY_GOAL_REWARD;
-        user.achievedGoal = true;
-
-        //else add email notification?
-        console.log(`${user.username} reached weekly goal`);
+    if(!user.achievedGoal){
+        user.weeklyGoalCount = (user.weeklyGoalCount || 0) + 1; //update
+        if(user.weeklyGoalCount >= WEEKLY_GOAL_TARGET){
+            user.weeklyGoalCount = WEEKLY_GOAL_TARGET; // Make sure it stays at target
+            user.totalPoints += WEEKLY_GOAL_REWARD;
+            user.achievedGoal = true;
+            achievedGoalNow = true;
+            //add email notification?
+            console.log(`${user.username} reached weekly goal`);
+        }
     }
     
     saveDB(db);
     
     //201 - created
     res.status(201).json({
-        mesage: "Report added successfully",
+        message: "Report added successfully",
         report: newReport,
-        newTotalPoints: user.totalPoints
+        newTotalPoints: user.totalPoints,
+        newStats: user.reportCounts,
+        weeklyGoalCount: user.weeklyGoalCount,
+        goalReachedNow: user.weeklyGoalCount === WEEKLY_GOAL_TARGET && achievedGoalNow // achieved goal NOW
     });
 };
 

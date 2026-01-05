@@ -18,14 +18,16 @@ const saveDB = (data) => {
 
 const resetUsersWeeklyGoal = () =>{
 // reset on sunday 12am
-    cron.schedule('* * * * *', () => {
-    console.log('resetting users weekly goal count');
+    cron.schedule('0 0 * * 0', () => {
+    console.log('--STARTING: weekly goal reset');
     const db = readDB();
     db.users.forEach(user => {
             user.weeklyGoalCount = 0;
             user.achievedGoal = false;
     });
     saveDB(db);
+    
+    console.log('--FINISHED: weekly goal reset');
     });
 };
 
