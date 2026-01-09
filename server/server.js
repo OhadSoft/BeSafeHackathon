@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import reportRoutes from './routes/reportRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
 import loginRoutes from './routes/loginRoutes.js';
+import tipRoutes from './routes/tipRoutes.js';
 import {resetUsersWeeklyGoal} from './utils/databaseHelper.js';
 
 dotenv.config();
@@ -19,9 +20,20 @@ app.use(cors({
 app.use('/reports', reportRoutes); // allows localhost:5000/reports
 app.use('/shop', shopRoutes);
 app.use('/auth', loginRoutes);
+app.use('/tips', tipRoutes);
 
 //reset weekly
 resetUsersWeeklyGoal();
+
+app.use((err, _req, res, _next) => {
+  void _next; //disable eslint error
+
+  console.error("Unhandled error:", err);
+  res.status(err.status || 500).json({
+    message: err.message || "Server error",
+    reason: err.reason
+  });
+});
 
 // Start server
 const PORT = process.env.PORT;

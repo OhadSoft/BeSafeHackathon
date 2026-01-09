@@ -1,37 +1,47 @@
 import { useState, useEffect } from 'react';
 import TaskCard from "./components/TaskCard";
 import ScoreCenter from './components/ScoreCenter';
+import LogoutButton from "./components/LogoutButton";
+import MonthlyGoalBar from "./components/MonthlyGoalBar";
+import SafetyTipQuizModal from "./components/SafetyTipQuiz";
 import api from './services/api';
-import { useNavigate  } from 'react-router'; //DAFNA - I added this for the logout
+
+
 
 function Dashboard() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('besafe_user');
-    navigate('/');
-  };
-
   const [userData, setUserData] = useState({
-    username: '',
+    username: "",
     totalPoints: 0,
-    weeklyGoalStat: 0, // DAFNA - added this to track weekly goal status
-    stats: {
-      reportPost: 0,
-      safetyTips: 0,
-      reportGood: 0
-    }
+
+    weeklyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0 },
+    weeklyTargets: { reportPost: 5, safetyTips: 5, reportGood: 5 },
+
+    monthlyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0 },
+    monthlyTargets: { reportPost: 20, safetyTips: 20, reportGood: 20 },
+
+    monthlyGoalAchieved: false
   });
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const loadSummary = async () => {
+    const user = JSON.parse(localStorage.getItem("besafe_user"));
+    const userID = user?.id;
+
+    if (!userID) {
+      console.error("User not found in localStorage");
+      setIsLoading(false);
+      return;
+    }
+
+    const response = await api.get(`/reports/summary/${userID}`);
+    setUserData(response.data);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('besafe_user')); //gets the current user
-        const userID = user?.id; //DAFNA - changes this so it's dynamic
-        const response = await api.get(`/reports/summary/${userID}`);
-        setUserData(response.data);
+        await loadSummary();
       } catch (error) {
         console.error(error);
       } finally {
@@ -42,60 +52,58 @@ function Dashboard() {
     fetchData();
   }, []);
 
+
   const handleUpdate = async (actionType) => {
     try {
-      const userID = 1;
-      const response = await api.post('/reports', {
-        userID: userID,
+      const user = JSON.parse(localStorage.getItem('besafe_user'));
+      const userID = user?.id;
+
+      if (!userID){
+        console.error("User not found in localStorage (handleUpdate)");
+        return;
+      };
+
+      await api.post("/reports", {
+        userID,
         action: actionType,
-        description: `User performed ${actionType}`
+        description: `User reports they performed ${actionType}. No further details provided.`
       });
 
-      setUserData(prev => ({
-        ...prev,
-        totalPoints: response.data.newTotalPoints,
-        stats: response.data.newStats,
-        weeklyGoalStat: response.data.weeklyGoalCount //DAFNA - added progress
-      }));
-
-      if(response.data.goalReachedNow) { //DAFNA - added temp alert
-        alert("Weekly goal reached! +500 bonus points, keep it up");
-      }
-      
+       await loadSummary();
     } catch (error) {
+      const msg =
+        error?.response?.data?.reason ||
+        error?.response?.data?.message ||
+        error.message;
+      alert(msg);
       console.error(error);
     }
   };
 
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
+
+  const openSafetyQuiz = () => setIsQuizOpen(true);
+  const closeSafetyQuiz = () => setIsQuizOpen(false);
+
   if (isLoading) return <div style={{textAlign: 'center', marginTop: '50px'}}>Loading...</div>;
 
+
   return (
+    
     <div style={{ 
       backgroundColor: '#f0f2f5', 
       minHeight: '100vh', 
       padding: '20px',
       fontFamily: 'Arial, sans-serif'
     }}>
-
       
-      {/* --- ADDED LOGOUT BUTTON HERE --- */}
-      <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-        <button 
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#FF4D4D',
-            color: 'white',
-            border: 'none',
-            padding: '10px 15px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontWeight: 'bold'
-          }}
-        >
-          Logout 
-        </button>
-      </div>
-      {/* --- ADDED LOGOUT BUTTON HERE --- */}
+      <LogoutButton />
+
+      <SafetyTipQuizModal
+      isOpen={isQuizOpen}
+      onClose={closeSafetyQuiz}
+      onSuccess={loadSummary}
+      />
 
       <h1 style={{ textAlign: 'center' }}>Hello, {userData.username}! 👋</h1>
       <h4 style={{ textAlign: 'center' }}>Thanks for making the internet a safer place</h4>
@@ -105,8 +113,8 @@ function Dashboard() {
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '-20px' }}>
           <TaskCard 
             title="Report Post" 
-            score={userData.stats.reportPost || 0} 
-            total={50} 
+            score={userData.weeklyCounts.reportPost || 0} 
+            total={userData.weeklyTargets?.reportPost || 5} 
             color="#FF4D4D" 
             onUpdate={() => handleUpdate('reportPost')} 
           />
@@ -120,37 +128,29 @@ function Dashboard() {
           
           <TaskCard 
             title="Safety Tips" 
-            score={userData.stats.safetyTips || 0} 
-            total={25} 
+            score={userData.weeklyCounts?.safetyTips || 0} 
+            total={userData.weeklyTargets?.safetyTips || 5} 
             color="#FF9F1C" 
-            onUpdate={() => handleUpdate('safetyTips')} 
+            onUpdate={openSafetyQuiz} 
           />
           
           <TaskCard 
             title="Report Good" 
-            score={userData.stats.reportGood || 0} 
-            total={30} 
+            score={userData.weeklyCounts?.reportGood || 0} 
+            total={userData.weeklyTargets?.reportGood || 5} 
             color="#00C851" 
             onUpdate={() => handleUpdate('reportGood')} 
           />
         </div>
 
-        
-        {/* --- ADDED WEEKLY GOAL BAR HERE --- */}
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <h3>Weekly Goal Progress: {userData.weeklyGoalStat} / 5</h3>
-          <div style={{ 
-            width: '100%', backgroundColor: '#ddd', borderRadius: '10px', height: '20px' 
-          }}> 
-            <div style={{ 
-              width: `${(userData.weeklyGoalStat / 5) * 100}%`, 
-              backgroundColor: '#00C851', height: '100%', borderRadius: '10px', transition: 'width 0.5s' 
-            }} />
-          </div>
-        </div>
 
-        <h4 style={{ textAlign: 'center', marginTop: '40px' }}>Keep Going!</h4>
-      </div>
+        
+        <MonthlyGoalBar
+          monthlyCounts={userData.monthlyCounts}
+          monthlyTargets={userData.monthlyTargets}
+          actions={["reportPost", "safetyTips", "reportGood"]}
+        />
+        </div>
     </div>
   );
 }
