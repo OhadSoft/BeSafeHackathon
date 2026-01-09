@@ -4,6 +4,8 @@ import ScoreCenter from './components/ScoreCenter';
 import LogoutButton from "./components/LogoutButton";
 import MonthlyGoalBar from "./components/MonthlyGoalBar";
 import SafetyTipQuizModal from "./components/SafetyTipQuiz";
+import ReportModal from "./components/ReportModal";
+import FeedbackToast from "./components/FeedbackToast";
 import api from './services/api';
 
 
@@ -53,30 +55,50 @@ function Dashboard() {
   }, []);
 
 
-  const handleUpdate = async (actionType) => {
-    try {
-      const user = JSON.parse(localStorage.getItem('besafe_user'));
-      const userID = user?.id;
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [reportAction, setReportAction] = useState(null);
 
-      if (!userID){
-        console.error("User not found in localStorage (handleUpdate)");
-        return;
-      };
+  const openReportModal = (action) => {
+    setReportAction(action);
+    setIsReportOpen(true);
+  };
 
-      await api.post("/reports", {
-        userID,
-        action: actionType,
-        description: `User reports they performed ${actionType}. No further details provided.`
-      });
+  const closeReportModal = () => {
+    setIsReportOpen(false);
+    setReportAction(null);
+  };
 
-       await loadSummary();
-    } catch (error) {
+  const [feedback, setFeedback] = useState({ type: "success", message: "" });
+
+  const showFeedback = (type, message) => {
+    setFeedback({ type, message });
+    // auto-hide after 3.5s
+    window.clearTimeout(showFeedback._t);
+    showFeedback._t = window.setTimeout(() => {
+      setFeedback({ type: "success", message: "" });
+    }, 3500);
+  };
+
+  const submitReport = async ({ action, description }) => {
+    const user = JSON.parse(localStorage.getItem('besafe_user'));
+    const userID = user?.id;
+
+    if(!userID){
+      console.log("User not found in report submission");
+      return;
+    }
+    try{
+    await api.post("/reports", {userID, action, description});
+    await loadSummary();
+    showFeedback("success", "Report accepted - keep it up!");
+    closeReportModal();
+    } catch (error){
       const msg =
         error?.response?.data?.reason ||
         error?.response?.data?.message ||
         error.message;
-      alert(msg);
-      console.error(error);
+
+        showFeedback("error", `Report rejected: ${msg}`);
     }
   };
 
@@ -99,6 +121,13 @@ function Dashboard() {
       
       <LogoutButton />
 
+      <FeedbackToast
+      type={feedback.type}
+      message={feedback.message}
+      onClose={() => setFeedback({ type: "success", message: "" })}
+      />
+
+
       <SafetyTipQuizModal
       isOpen={isQuizOpen}
       onClose={closeSafetyQuiz}
@@ -116,7 +145,7 @@ function Dashboard() {
             score={userData.weeklyCounts.reportPost || 0} 
             total={userData.weeklyTargets?.reportPost || 5} 
             color="#FF4D4D" 
-            onUpdate={() => handleUpdate('reportPost')} 
+            onUpdate={() => openReportModal("reportPost")}
           />
         </div>
 
@@ -139,11 +168,27 @@ function Dashboard() {
             score={userData.weeklyCounts?.reportGood || 0} 
             total={userData.weeklyTargets?.reportGood || 5} 
             color="#00C851" 
-            onUpdate={() => handleUpdate('reportGood')} 
+            onUpdate={() => openReportModal("reportGood")} 
           />
         </div>
 
-
+        <ReportModal
+          isOpen={isReportOpen}
+          action={reportAction}
+          onClose={closeReportModal}
+          onSubmit={async (payload) => {
+            try {
+              await submitReport(payload);
+            } catch (error) {
+              const msg =
+                error?.response?.data?.reason ||
+                error?.response?.data?.message ||
+                error.message;
+              alert(msg);
+              console.error(error);
+            }
+          }}
+        />
         
         <MonthlyGoalBar
           monthlyCounts={userData.monthlyCounts}

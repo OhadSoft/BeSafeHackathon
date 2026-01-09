@@ -148,7 +148,6 @@ function SafetyTipQuizModal({ isOpen, onClose, onSuccess }) {
                       border: "1px solid #ddd",
                       borderRadius: 10,
                       padding: 10,
-                      cursor: "pointer",
                       backgroundColor: selected === opt ? "#f0f7ff" : "white",
                       opacity: isCorrect ? 0.7 : 1,
                       cursor: isCorrect ? "default" : "pointer"
