@@ -5,21 +5,21 @@
       "username": "QueenB",
       "password": "12345",
       "email": "dafnatur@gmail.com",
-      "totalPoints": 5600,
+      "totalPoints": 5980,
       "weeklyCounts": {
-        "reportPost": 1,
-        "safetyTips": 5,
-        "reportGood": 2
+        "reportPost": 6,
+        "safetyTips": 6,
+        "reportGood": 8
       },
       "monthlyCounts": {
-        "reportPost": 1,
-        "safetyTips": 5,
-        "reportGood": 2
+        "reportPost": 6,
+        "safetyTips": 6,
+        "reportGood": 8
       },
       "weekKey": "2026-W02",
       "montKey": "2026-01",
       "achievedGoal": false,
-      "lastReportTime": "2026-01-09T17:01:46.671Z",
+      "lastReportTime": "2026-01-09T19:18:19.028Z",
       "monthKey": "2026-01",
       "monthlyGoalAchieved": false
     },
@@ -260,6 +260,94 @@
       "description": "User reports they performed reportPost. No further details provided.",
       "pointsEarned": 50,
       "timestamp": "2026-01-09T15:30:00.842Z"
+    },
+    {
+      "id": 1767978222655,
+      "userID": 1,
+      "action": "reportPost",
+      "description": "User reports they performed reportPost. No further details provided.",
+      "pointsEarned": 50,
+      "timestamp": "2026-01-09T17:03:42.655Z"
+    },
+    {
+      "id": 1767978541212,
+      "userID": 1,
+      "action": "reportPost",
+      "description": "User reports they performed reportPost. No further details provided.",
+      "pointsEarned": 50,
+      "timestamp": "2026-01-09T17:09:01.212Z"
+    },
+    {
+      "id": 1767978543648,
+      "userID": 1,
+      "action": "reportPost",
+      "description": "User reports they performed reportPost. No further details provided.",
+      "pointsEarned": 50,
+      "timestamp": "2026-01-09T17:09:03.648Z"
+    },
+    {
+      "id": 1767978978653,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "User reports they performed reportGood. No further details provided.",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T17:16:18.653Z"
+    },
+    {
+      "id": 1767978999075,
+      "userID": 1,
+      "action": "reportPost",
+      "description": "User reports they performed reportPost. No further details provided.",
+      "pointsEarned": 50,
+      "timestamp": "2026-01-09T17:16:39.075Z"
+    },
+    {
+      "id": 1767982632723,
+      "userID": 1,
+      "action": "reportPost",
+      "description": "User reports they performed reportPost. No further details provided.",
+      "pointsEarned": 50,
+      "timestamp": "2026-01-09T18:17:12.723Z"
+    },
+    {
+      "id": 1767984040728,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: TikTok\nLink: N/A\nWhy it’s good: This is a video describing how one can approach a kid who is more distant and doesn't talk much in class, and befriend them.",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T18:40:40.728Z"
+    },
+    {
+      "id": 1767984111822,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: TikTok\nLink: N/A\nWhy it’s good: This is a bullshit prompt",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T18:41:51.822Z"
+    },
+    {
+      "id": 1767985285988,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: Instagram\nLink: N/A\nWhy it’s good: Nothing to say\n",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T19:01:25.988Z"
+    },
+    {
+      "id": 1767985302267,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: TikTok\nLink: N/A\nWhy it’s good: asdasdafqwefqawfe\n",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T19:01:42.267Z"
+    },
+    {
+      "id": 1767986299028,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: Instagram\nLink: N/A\nWhy it’s good: I saw a video about how to treat my co-workers better and notice when they're down.",
+      "pointsEarned": 20,
+      "timestamp": "2026-01-09T19:18:19.028Z"
     }
   ]
 }
