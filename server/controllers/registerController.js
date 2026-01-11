@@ -37,6 +37,14 @@ export const register = (req, res) => {
         current: 1,
         best: 1,
         lastActiveDate: new Date().toISOString().slice(0, 10)
+      },
+      profile: {
+        displayName: username,
+        bio: "",
+        avatarUrl: "",
+        privacy: {
+          showStats: true
+        }
       }
     };
 

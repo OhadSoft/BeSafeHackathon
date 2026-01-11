@@ -21,15 +21,6 @@
       "weekKey": "2026-W02",
       "achievedGoal": false,
       "lastReportTime": "2026-01-11T08:41:18.282Z",
-        "reportPost": 6,
-        "safetyTips": 7,
-        "reportGood": 8,
-        "simulation": 7
-
-      },
-      "weekKey": "2026-W02",
-      "achievedGoal": false,
-      "lastReportTime": "2026-01-10T17:04:59.968Z",
       "monthKey": "2026-01",
       "monthlyGoalAchieved": false,
       "streak": {
@@ -119,7 +110,6 @@
           "showStats": true
         }
       }
-      "monthlyGoalAchieved": false
     },
     {
       "id": 4,
@@ -141,7 +131,19 @@
       "monthKey": "2026-01",
       "achievedGoal": false,
       "lastReportTime": "2026-01-10T18:28:21.851Z",
-      "monthlyGoalAchieved": false
+      "monthlyGoalAchieved": false,"streak": {
+        "current": 1,
+        "best": 1,
+        "lastActiveDate": "2026-01-10"
+      },
+      "profile": {
+        "displayName": "QueenB2",
+        "bio": "",
+        "avatarUrl": "",
+        "privacy": {
+          "showStats": true
+        }
+      }
     }
   ],
   "safety-tips": [
