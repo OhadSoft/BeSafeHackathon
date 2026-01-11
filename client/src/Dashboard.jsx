@@ -8,23 +8,26 @@ import MonthlyGoalBar from "./components/MonthlyGoalBar";
 import SafetyTipQuizModal from "./components/SafetyTipQuiz";
 import ReportModal from "./components/ReportModal";
 import FeedbackToast from "./components/FeedbackToast";
+import SimulationModal from "./components/SimulationModal";
 
 function Dashboard() {
   const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [reportAction, setReportAction] = useState(null);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
+  const [isSimOpen, setIsSimOpen] = useState(false);
   const [feedback, setFeedback] = useState({ type: "success", message: "" });
 
   const [userData, setUserData] = useState({
     username: "",
     totalPoints: 0,
-    weeklyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0 },
-    weeklyTargets: { reportPost: 5, safetyTips: 5, reportGood: 5 },
-    monthlyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0 },
-    monthlyTargets: { reportPost: 20, safetyTips: 20, reportGood: 20 },
-    monthlyGoalAchieved: false,
+    weeklyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0, simulation: 0 },
+    weeklyTargets: { reportPost: 5, safetyTips: 5, reportGood: 5, simulation: 0 },
+    monthlyCounts: { reportPost: 0, safetyTips: 0, reportGood: 0, simulation: 0 },
+    monthlyTargets: { reportPost: 20, safetyTips: 20, reportGood: 20, simulation: 20 },
+    monthlyGoalAchieved: false
   });
 
   const loadSummary = async () => {
@@ -85,13 +88,13 @@ function Dashboard() {
       showFeedback("success", "Report accepted - keep it up!");
       closeReportModal();
     } catch (error) {
-      const msg =
-        error?.response?.data?.reason ||
-        error?.response?.data?.message ||
-        error.message;
+      const msg = error?.response?.data?.reason || error?.response?.data?.message || error.message;
       showFeedback("error", `Report rejected: ${msg}`);
     }
   };
+
+  const openSimulation = () => setIsSimOpen(true);
+  const closeSimulation = () => setIsSimOpen(false);
 
   if (isLoading) return <div style={styles.loading}>Loading...</div>;
 
@@ -111,7 +114,20 @@ function Dashboard() {
         onSuccess={loadSummary}
       />
 
-      <h1 style={styles.header}>Hello, {userData.username}!</h1>
+      <SimulationModal
+        isOpen={isSimOpen}
+        onClose={closeSimulation}
+        onSuccess={loadSummary}
+      />
+
+      <ReportModal
+        isOpen={isReportOpen}
+        action={reportAction}
+        onClose={closeReportModal}
+        onSubmit={submitReport}
+      />
+
+      <h1 style={styles.header}>Hello, {userData.username}! 👋</h1>
       <h4 style={styles.subHeader}>
         Thanks for making the internet a safer place
       </h4>
@@ -128,7 +144,16 @@ function Dashboard() {
       </div>
 
       <div style={styles.contentWrapper}>
+        
         <div style={styles.topCardRow}>
+          <TaskCard 
+            title="Simulation" 
+            score={userData.weeklyCounts.simulation || 0} 
+            total={userData.weeklyTargets?.simulation || 5} 
+            color="#7E57C2" 
+            onUpdate={openSimulation}
+          />
+          <div style={{ width: '20px' }}></div>
           <TaskCard
             title="Report Post"
             score={userData.weeklyCounts.reportPost || 0}
@@ -150,7 +175,7 @@ function Dashboard() {
             color="#FF9F1C"
             onUpdate={() => setIsQuizOpen(true)}
           />
-
+          
           <TaskCard
             title="Report Good"
             score={userData.weeklyCounts?.reportGood || 0}
@@ -159,13 +184,6 @@ function Dashboard() {
             onUpdate={() => openReportModal("reportGood")}
           />
         </div>
-
-        <ReportModal
-          isOpen={isReportOpen}
-          action={reportAction}
-          onClose={closeReportModal}
-          onSubmit={submitReport}
-        />
 
         <MonthlyGoalBar
           monthlyCounts={userData.monthlyCounts}
@@ -193,6 +211,7 @@ const styles = {
   },
   subHeader: {
     textAlign: "center",
+    marginBottom: "20px",
   },
   buttonWrapper: {
     textAlign: "center",
@@ -217,6 +236,7 @@ const styles = {
   topCardRow: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     marginBottom: "-20px",
   },
   scoreWrapper: {
