@@ -200,7 +200,7 @@ function SimulationModal({ isOpen, onClose, onSuccess }) {
                   )}
                   {aiPick && (
                     <div className="coach-suggestion">
-                      <strong>Suggestion:</strong> {aiPick.optionText}
+                      <strong>You Picked:</strong> {aiPick.optionText}
                     </div>
                   )}
                 </div>

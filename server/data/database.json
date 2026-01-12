@@ -5,22 +5,22 @@
       "username": "QueenB",
       "password": "12345",
       "email": "Dafnatur@gmail.com",
-      "totalPoints": 3890,
+      "totalPoints": 3920,
       "weeklyCounts": {
         "reportPost": 0,
         "safetyTips": 0,
         "reportGood": 1,
-        "simulation": 1
+        "simulation": 2
       },
       "monthlyCounts": {
         "reportPost": 8,
         "safetyTips": 10,
         "reportGood": 10,
-        "simulation": 15
+        "simulation": 16
       },
       "weekKey": "2026-W03",
       "achievedGoal": false,
-      "lastReportTime": "2026-01-12T09:28:33.136Z",
+      "lastReportTime": "2026-01-12T09:46:32.112Z",
       "monthKey": "2026-01",
       "monthlyGoalAchieved": false,
       "streak": {
