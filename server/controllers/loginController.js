@@ -33,9 +33,5 @@ export const login = async (req, res) => {
                 message: `Error verifying credentials: ${error.message}` 
             });
         }
-
-        return res.status(401).json({
-            message: "Invalid username or password"
-        });
     }
 };

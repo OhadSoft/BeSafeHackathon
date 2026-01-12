@@ -278,3 +278,14 @@
   font-size: 18px;
 }
 
+.update-button:disabled {
+  filter: grayscale(1); /* Forces any color to gray */
+  opacity: 0.7;
+  transform: none !important; /* Prevents hover lift effects */
+  box-shadow: none !important;
+}
+
+.task-card-v3.is-completed {
+  border-color: #e0e0e0;
+  background-color: #fafafa;
+}
