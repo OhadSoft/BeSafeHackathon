@@ -268,6 +268,13 @@
           "itemName": "Garmin Watch",
           "pricePaid": 80,
           "date": "2026-01-12T15:06:39.847Z"
+        },
+        {
+          "purchaseId": 1768231151078,
+          "itemId": "iPhone",
+          "itemName": "iPhone 17",
+          "pricePaid": 10,
+          "date": "2026-01-12T15:19:11.078Z"
         }
       ],
       "hashedPassword": "$2b$10$XtZ4UO/GFv/ASiJ1KDsPpug9DaCucWlBNr4I7F.muF78WKxbGA7WG"
