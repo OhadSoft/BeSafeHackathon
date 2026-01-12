@@ -34,12 +34,24 @@ function Dashboard() {
   const loadSummary = async () => {
     const userString = localStorage.getItem("besafe_user");
     if (!userString) return;
+    
     const user = JSON.parse(userString);
+    // Ensure we are passing a clean ID
+    const userId = user.id;
+
     try {
-      const response = await api.get(`/reports/summary/${user.id}`);
-      setUserData(response.data);
+      const response = await api.get(`/reports/summary/${userId}`);
+      
+      // Validate that we actually got data
+      if (response.data) {
+        setUserData(response.data);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Dashboard Load Error:", error);
+      // Optional: if 401/403, redirect to login
+      if (error.response?.status === 404) {
+        console.warn("User session invalid, check localStorage");
+      }
     }
   };
 

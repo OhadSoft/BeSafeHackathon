@@ -5,28 +5,28 @@
       "username": "QueenB",
       "password": "12345",
       "email": "Dafnatur@gmail.com",
-      "totalPoints": 3840,
+      "totalPoints": 3860,
       "weeklyCounts": {
-        "reportPost": 7,
-        "safetyTips": 10,
-        "reportGood": 9,
-        "simulation": 14
+        "reportPost": 0,
+        "safetyTips": 0,
+        "reportGood": 1,
+        "simulation": 0
       },
       "monthlyCounts": {
         "reportPost": 8,
         "safetyTips": 10,
-        "reportGood": 9,
+        "reportGood": 10,
         "simulation": 14
       },
-      "weekKey": "2026-W02",
+      "weekKey": "2026-W03",
       "achievedGoal": false,
-      "lastReportTime": "2026-01-11T14:13:03.507Z",
+      "lastReportTime": "2026-01-12T09:07:53.293Z",
       "monthKey": "2026-01",
       "monthlyGoalAchieved": false,
       "streak": {
-        "current": 2,
-        "best": 2,
-        "lastActiveDate": "2026-01-11"
+        "current": 3,
+        "best": 3,
+        "lastActiveDate": "2026-01-12"
       },
       "profile": {
         "displayName": "QueenB",
@@ -57,7 +57,7 @@
           "itemName": "Garmin Watch",
           "pricePaid": 80,
           "date": "2026-01-11T19:42:06.021Z"
-          },
+        },
         {
           "purchaseId": 1768203843444,
           "itemId": "iPhone",
@@ -167,12 +167,14 @@
       "weeklyCounts": {
         "reportPost": 0,
         "safetyTips": 1,
-        "reportGood": 1
+        "reportGood": 1,
+        "simulation": 0
       },
       "monthlyCounts": {
         "reportPost": 0,
         "safetyTips": 1,
-        "reportGood": 1
+        "reportGood": 1,
+        "simulation": 0
       },
       "weekKey": "2026-W02",
       "monthKey": "2026-01",
@@ -912,7 +914,8 @@
       "id": 1768140783509,
       "userID": 1,
       "action": "reportPost",
-      "description": "Platform: Instagram\nLink: N/A\nWhat happened: I saw a girl harassing another girl and commenting mean things on her post","pointsEarned": 50,
+      "description": "Platform: Instagram\nLink: N/A\nWhat happened: I saw a girl harassing another girl and commenting mean things on her post",
+      "pointsEarned": 50,
       "timestamp": "2026-01-11T14:13:03.509Z"
     },
     {
@@ -925,6 +928,18 @@
         "monthlyGoalAchieved": false
       },
       "timestamp": "2026-01-11T21:04:30.529Z"
+    },
+    {
+      "id": 1768208873299,
+      "userID": 1,
+      "action": "reportGood",
+      "description": "Platform: TikTok\nLink: N/A\nDetails: I watched a video about how to help your firends in distress",
+      "pointsEarned": {
+        "pointsEarned": 20,
+        "monthlyGoalAchieved": false,
+        "newTotal": 3860
+      },
+      "timestamp": "2026-01-12T09:07:53.299Z"
     }
   ]
 }
